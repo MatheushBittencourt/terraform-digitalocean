@@ -1,14 +1,4 @@
-terraform {
-  required_version = ">= 1.0"
-  required_providers {
-    digitalocean = {
-      source  = "digitalocean/digitalocean"
-      version = "~> 2.0"
-    }
-  }
-}
-
-resource "digitalocean_droplet" "web" {
+resource "digitalocean_droplet" "default" {
   image    = var.do_image
   name     = var.droplet_name
   region   = var.region
@@ -17,14 +7,25 @@ resource "digitalocean_droplet" "web" {
   tags     = var.tags
 }
 
+# Define a conexão SSH para o provisionamento
+connection {
+  host        = digitalocean_droplet.default.ipv4_address
+  user        = "root"
+  type        = "ssh"
+  private_key = file("~/.ssh/id_ed25519")
+  timeout     = "2m"
+}
+
+# Provisionamento remoto usando o script install.sh (apenas python)
+provisioner "remote-exec" {
+  script = "${path.module}/install.sh"
+}
+
 # Regras de firewall associadas ao droplet
 resource "digitalocean_firewall" "firewall_modelo" {
   name = "firewall-modelo"
+  droplet_ids = [digitalocean_droplet.default.id]
 
-  # Associa o firewall ao droplet criado
-  droplet_ids = [digitalocean_droplet.web.id]
-
-  # Regras de entrada
   dynamic "inbound_rule" {
     for_each = var.inbound_rules
     content {
@@ -34,7 +35,6 @@ resource "digitalocean_firewall" "firewall_modelo" {
     }
   }
 
-  # Regras de saída
   dynamic "outbound_rule" {
     for_each = var.outbound_rules
     content {
