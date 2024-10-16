@@ -1,4 +1,3 @@
-# variables.tf
 variable "do_token" {
   description = "Token de API do DigitalOcean."
   type        = string

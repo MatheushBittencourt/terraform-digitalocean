@@ -8,10 +8,6 @@ terraform {
   }
 }
 
-provider "digitalocean" {
-  token = var.do_token
-}
-
 resource "digitalocean_droplet" "web" {
   image    = var.do_image
   name     = var.droplet_name
@@ -21,13 +17,9 @@ resource "digitalocean_droplet" "web" {
   tags     = var.tags
 }
 
-data "digitalocean_ssh_key" "example" {
-  name = "example"
-}
-
 # Regras de firewall associadas ao droplet
-resource "digitalocean_firewall" "firewall_aula" {
-  name = "firewall-aula"
+resource "digitalocean_firewall" "firewall_modelo" {
+  name = "firewall-modelo"
 
   # Associa o firewall ao droplet criado
   droplet_ids = [digitalocean_droplet.web.id]

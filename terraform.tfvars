@@ -1,4 +1,3 @@
-# terraform.tfvars
 do_token     = "seu_token_da_api_do_digitalocean"
 droplet_name = "meu-droplet"
 region       = "nyc3"
