@@ -33,3 +33,66 @@ variable "tags" {
   type        = list(string)
   default     = ["web"]
 }
+
+variable "inbound_rules" {
+  description = "Lista de regras de entrada do firewall"
+  type = list(object({
+    protocol         = string
+    port_range       = string
+    source_addresses = list(string)
+  }))
+  default = [
+    {
+      protocol         = "tcp"
+      port_range       = "22"
+      source_addresses = ["0.0.0.0/0", "::/0"]
+    },
+    {
+      protocol         = "tcp"
+      port_range       = "53"
+      source_addresses = ["0.0.0.0/0", "::/0"]
+    },
+    {
+      protocol         = "tcp"
+      port_range       = "80"
+      source_addresses = ["0.0.0.0/0", "::/0"]
+    },
+    {
+      protocol         = "tcp"
+      port_range       = "443"
+      source_addresses = ["0.0.0.0/0", "::/0"]
+    }
+  ]
+}
+
+variable "outbound_rules" {
+  description = "Lista de regras de saída do firewall"
+  type = list(object({
+    protocol              = string
+    port_range            = string
+    destination_addresses = list(string)
+  }))
+  default = [
+    {
+      protocol              = "tcp"
+      port_range            = "22"
+      destination_addresses = ["0.0.0.0/0", "::/0"]
+    },
+    {
+      protocol              = "tcp"
+      port_range            = "53"
+      destination_addresses = ["0.0.0.0/0", "::/0"]
+    },
+    {
+      protocol              = "tcp"
+      port_range            = "80"
+      destination_addresses = ["0.0.0.0/0", "::/0"]
+    },
+    {
+      protocol              = "tcp"
+      port_range            = "443"
+      destination_addresses = ["0.0.0.0/0", "::/0"]
+    }
+  ]
+}
+
