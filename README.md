@@ -58,6 +58,7 @@ droplet_name = "meu-droplet"
 region       = "nyc3"
 size         = "s-1vcpu-2gb"
 do_image     = "ubuntu-22-04-x64"
+ssh_key_name  = "example" # Nome da chave SSH configurada na DigitalOcean
 tags         = ["meu-droplet", "producao"]
 ```
 
@@ -84,6 +85,22 @@ Se o plano estiver correto, aplique-o para provisionar os recursos:
 ```bash
 terraform apply
 ```
+
+## 🔥 Regras de Firewall
+
+As regras de firewall são configuradas no arquivo `variables.tf` e associadas ao droplet criado. Elas são definidas como variáveis para facilitar a manutenção e modificação. Você pode adicionar ou remover regras de entrada e saída conforme necessário.
+
+Exemplo de regras:
+
+- **Entrada (Inbound)**:
+  - Porta 22 (SSH)
+  - Porta 80 (HTTP)
+  - Porta 443 (HTTPS)
+
+- **Saída (Outbound)**:
+  - Porta 22 (SSH)
+
+Essas regras estão configuradas para aceitar conexões de qualquer origem/destino (0.0.0.0/0).
 
 ## 🔧 Configuração do DigitalOcean
 
