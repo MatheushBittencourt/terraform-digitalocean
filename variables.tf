@@ -18,7 +18,7 @@ variable "region" {
 variable "size" {
   description = "Tamanho da máquina. Exemplos: s-1vcpu-1gb, s-1vcpu-2gb."
   type        = string
-  default     = "s-1vcpu-1gb"
+  default     = "s-1vcpu-512mb-10gb"
 }
 
 variable "do_image" {

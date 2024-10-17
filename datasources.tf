@@ -1,3 +1,3 @@
-data "digitalocean_ssh_key" "example" {
-  name = "example"
+data "digitalocean_ssh_key" "Matheus" {
+  name = "Matheus"
 }
